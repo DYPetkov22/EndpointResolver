@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EndpointResolver</title>
+    <style>
+        body { font: 1rem/1.6 system-ui, sans-serif; max-width: 48rem; margin: 4rem auto; padding: 0 1.5rem; color: #172033; background: #f7f9fc; }
+        main { padding: 2rem; background: white; border: 1px solid #dce3ed; border-radius: 1rem; }
+        h1 { margin-top: 0; }
+        a { color: #174db5; }
+        li { margin: .75rem 0; }
+    </style>
+</head>
+<body>
+<main>
+    <h1>EndpointResolver</h1>
+    <p>The web API is running.</p>
+    <ul>
+        <li><a href="/api/Students/GetAll">View all students</a></li>
+        <li><a href="/api/Students/GetOne?id=1">Find student 1</a> (returns 404 if that student does not exist)</li>
+        <li><a href="/openapi/v1.json">OpenAPI specification</a> (Development only)</li>
+    </ul>
+    <p>Use the requests in <code>EndpointResolver.http</code> to create, update, or delete students.</p>
+</main>
+</body>
+</html>

@@ -1,4 +1,4 @@
-namespace ConsoleApp1.Controllers;
+namespace EndpointResolver.LegacyControllers;
 
 public abstract class ControllerBase
 {

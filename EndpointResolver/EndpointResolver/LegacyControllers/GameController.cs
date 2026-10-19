@@ -1,5 +1,6 @@
-namespace ConsoleApp1.Controllers;
+namespace EndpointResolver.LegacyControllers;
 
+[Microsoft.AspNetCore.Mvc.NonController]
 public class GameController : ControllerBase
 {
     public void PlayGame()

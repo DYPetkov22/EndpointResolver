@@ -1,4 +1,4 @@
-namespace ConsoleApp1.Attributes;
+namespace EndpointResolver.Attributes;
 
 [AttributeUsage(AttributeTargets.Class)]
 public sealed class RouteAttribute : Attribute

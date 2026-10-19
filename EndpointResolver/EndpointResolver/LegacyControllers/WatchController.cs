@@ -1,8 +1,9 @@
-using ConsoleApp1.Attributes;
+using EndpointResolver.Attributes;
 
-namespace ConsoleApp1.Controllers;
+namespace EndpointResolver.LegacyControllers;
 
 [Route("api/[controller]/[action]")]
+[Microsoft.AspNetCore.Mvc.NonController]
 public class WatchController : ControllerBase
 {
     [HttpGet]
