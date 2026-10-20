@@ -1,9 +1,9 @@
 using System.Globalization;
 using System.Reflection;
-using EndpointResolver.Attributes;
-using EndpointResolver.LegacyControllers;
+using ConsoleApp1.Attributes;
+using ConsoleApp1.Controllers;
 
-namespace EndpointResolver.Routing;
+namespace ConsoleApp1.Routing;
 
 public sealed class EndpointResolver
 {
@@ -77,18 +77,17 @@ public sealed class EndpointResolver
                 "No endpoints found. Call BuildEndpoints() first.");
         }
 
-        if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) ||
-            (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+        if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri))
         {
-            throw new ArgumentException("Enter a valid absolute HTTP or HTTPS URL.", nameof(url));
+            throw new ArgumentException("The URL is not valid.", nameof(url));
         }
 
         string path = uri.AbsolutePath.Trim('/');
 
         if (!_endpoints.TryGetValue(path, out EndpointDefinition? endpoint))
         {
-            throw new ArgumentException(
-                $"Endpoint '{path}' was not found. Choose one of the available endpoints.", nameof(url));
+            throw new InvalidOperationException(
+                $"Endpoint '{path}' was not found.");
         }
 
         object controllerInstance =
@@ -109,23 +108,11 @@ public sealed class EndpointResolver
             if (parameter.Name is null ||
                 !queryParameters.TryGetValue(parameter.Name, out string? rawValue))
             {
-                throw new ArgumentException(
-                    $"Missing parameter '{parameter.Name}' for endpoint '{path}'.", nameof(url));
+                throw new InvalidOperationException(
+                    $"Missing parameter '{parameter.Name}' for endpoint '{path}'.");
             }
 
-            try
-            {
-                arguments[i] = ConvertValue(rawValue, parameter.ParameterType);
-            }
-            catch (Exception exception) when (
-                exception is FormatException or OverflowException or ArgumentException)
-            {
-                string expectedType = (Nullable.GetUnderlyingType(parameter.ParameterType) ??
-                    parameter.ParameterType).Name;
-                throw new ArgumentException(
-                    $"Parameter '{parameter.Name}' must be a valid {expectedType} value.",
-                    nameof(url), exception);
-            }
+            arguments[i] = ConvertValue(rawValue, parameter.ParameterType);
         }
 
         endpoint.Method.Invoke(controllerInstance, arguments);
@@ -149,9 +136,9 @@ public sealed class EndpointResolver
         {
             string[] pair = part.Split('=', 2);
 
-            string key = Uri.UnescapeDataString(pair[0].Replace('+', ' '));
+            string key = Uri.UnescapeDataString(pair[0]);
             string value = pair.Length == 2
-                ? Uri.UnescapeDataString(pair[1].Replace('+', ' '))
+                ? Uri.UnescapeDataString(pair[1])
                 : string.Empty;
 
             result[key] = value;

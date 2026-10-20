@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace EndpointResolver.Routing;
+namespace ConsoleApp1.Routing;
 
 internal sealed class EndpointDefinition
 {
